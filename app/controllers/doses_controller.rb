@@ -22,13 +22,14 @@ class DosesController < ApplicationController
     end
   end
 
-  def edit
-    @dose = Dose.find(params[:id])
-  end
+  # def edit
+  #   @dose = Dose.find(params[:id])
+  # end
 
   def update
-    @dose = Dose.new(dose_params)
-    @dose.save
+    @dose = Dose.find(params[:id])
+    @dose.update(dose_params)
+
     redirect_to cocktail_path(@dose.cocktail)
   end
 
