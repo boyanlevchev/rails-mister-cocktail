@@ -4,22 +4,25 @@
 
 <ul>
   <% @cocktail.doses.each_with_index do |dose, index| %>
-  <li><%= dose.ingredient.name %> - <%= dose.description %> | <button class = "btn btn-outline-info btn-sm" id="editDoseButton">Edit</button> <%= link_to "Delete", dose_path(dose), data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-outline-danger btn-sm" %> <br>
-    <div class="d-none" id="region<%=index%>">
-      <%= simple_form_for ([@cocktail, @dose], method: :patch) do |f| %>
-      <%= f.association :ingredient, label: 'Choose a new dose ingredient', selected: dose.ingredient.id %>
-      <%= f.input :description, label: 'Add a new dose description', :input_html => { :value => dose.description } %>
-      <%= f.submit :submit, label: 'Submit' %>
-    </div>
-<% end %>
-  </li>
+    <li><%= dose.ingredient.name %> - <%= dose.description %>
+      | <button class = "editDoseButton btn btn-outline-info btn-sm">Edit</button>
+      <%= link_to "Delete", dose_path(dose), data: { confirm: 'Are you sure?' }, method: :delete, class: "btn btn-outline-danger btn-sm" %>
+      <br>
+      <div class="d-none" id="region<%=index%>">
+        <%= simple_form_for [@cocktail, @dose], method: :patch do |f| %>
+          <%= f.association :ingredient, label: 'Choose a new dose ingredient', selected: dose.ingredient.id %>
+          <%= f.input :description, label: 'Add a new dose description', :input_html => { :value => dose.description } %>
+          <%= f.submit :submit, label: 'Submit' %>
+        <% end %>
+      </div>
+    </li>
   <% end %>
 </ul>
 
 <%= simple_form_for [@cocktail, @dose] do |f| %>
-<%= f.association :ingredient, label: 'Choose a new dose ingredient' %>
-<%= f.input :description, label: 'Add a new dose description' %>
-<%= f.submit :submit, label: 'Submit' %>
+  <%= f.association :ingredient, label: 'Choose a new dose ingredient' %>
+  <%= f.input :description, label: 'Add a new dose description' %>
+  <%= f.submit :submit, label: 'Submit' %>
 <% end %>
 
 <%= link_to "Back", cocktails_path %> | <%= link_to "Delete", cocktail_path(@cocktail), data: { confirm: 'Are you sure?' }, method: :delete %>
